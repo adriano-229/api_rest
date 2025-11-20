@@ -1,0 +1,3 @@
+# Project exclude paths
+/api_rest_client/target/
+/api_rest_server/target/

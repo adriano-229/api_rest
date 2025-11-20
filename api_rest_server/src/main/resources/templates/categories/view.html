@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${entityName} + ' Details'">Entity Details</title>
+</head>
+<body>
+    <h1 th:text="${entityName} + ' Details'">Entity Details</h1>
+
+    <div>
+        <p><strong>ID:</strong> <span th:text="${entity.id}">1</span></p>
+        <p><strong>Name:</strong> <span th:text="${entity.name}">Name</span></p>
+    </div>
+
+    <a th:href="@{/{path}/edit/{id}(path=${basePath},id=${entity.id})}">Edit</a>
+    <a th:href="@{/{path}(path=${basePath})}">Back to List</a>
+</body>
+</html>
