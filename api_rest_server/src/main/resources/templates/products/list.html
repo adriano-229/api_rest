@@ -1,43 +1,43 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title th:text="${entityName} + ' List'">Entity List</title>
+  <meta charset="UTF-8">
+  <title th:text="${entityName} + ' List'">Entity List</title>
 </head>
 <body>
-    <h1 th:text="${entityName} + ' List'">Entity List</h1>
+<h1 th:text="${entityName} + ' List'">Entity List</h1>
 
-    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
-    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+<div class="alert alert-success" th:if="${success}" th:text="${success}"></div>
+<div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
 
-    <a th:href="@{/{path}/new(path=${basePath})}" class="btn">Create New</a>
+<a class="btn" th:href="@{/{path}/new(path=${basePath})}">Create New</a>
 
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Category</th>
-                <th>Brand</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="entity : ${entities}">
-                <td th:text="${entity.id}">1</td>
-                <td th:text="${entity.name}">Name</td>
-                <td th:text="${entity.price}">0.00</td>
-                <td th:text="${entity.category?.name}">N/A</td>
-                <td th:text="${entity.brand?.name}">N/A</td>
-                <td>
-                    <a th:href="@{/{path}/{id}(path=${basePath},id=${entity.id})}">View</a>
-                    <a th:href="@{/{path}/edit/{id}(path=${basePath},id=${entity.id})}">Edit</a>
-                    <a th:href="@{/{path}/delete/{id}(path=${basePath},id=${entity.id})}">Delete</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Category</th>
+    <th>Brand</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="entity : ${entities}">
+    <td th:text="${entity.id}">1</td>
+    <td th:text="${entity.name}">Name</td>
+    <td th:text="${entity.price}">0.00</td>
+    <td th:text="${entity.category?.name}">N/A</td>
+    <td th:text="${entity.brand?.name}">N/A</td>
+    <td>
+      <a th:href="@{/{path}/{id}(path=${basePath},id=${entity.id})}">View</a>
+      <a th:href="@{/{path}/edit/{id}(path=${basePath},id=${entity.id})}">Edit</a>
+      <a th:href="@{/{path}/delete/{id}(path=${basePath},id=${entity.id})}">Delete</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
 </body>
 </html>
 

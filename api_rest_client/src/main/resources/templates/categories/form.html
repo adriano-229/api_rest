@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
   <title>Category Form</title>
 </head>
 <body>
-    <h1 th:text="${isEdit ? 'Edit Category' : 'Create Category'}"></h1>
+<h1 th:text="${isEdit ? 'Edit Category' : 'Create Category'}"></h1>
 
-    <form th:action="${isEdit ? '/categories/' + category.id : '/categories'}"
-          th:object="${category}" method="post">
+<form method="post"
+      th:action="${isEdit ? '/categories/' + category.id : '/categories'}" th:object="${category}">
 
-        <div>
-            <label for="name">Name:</label>
-            <input type="text" id="name" th:field="*{nameCategory}" required/>
-        </div>
+  <div>
+    <label for="name">Name:</label>
+    <input id="name" required th:field="*{nameCategory}" type="text"/>
+  </div>
 
-        <button type="submit" th:text="${isEdit ? 'Update' : 'Create'}">Submit</button>
-        <a th:href="@{/categories}">Cancel</a>
-    </form>
+  <button th:text="${isEdit ? 'Update' : 'Create'}" type="submit">Submit</button>
+  <a th:href="@{/categories}">Cancel</a>
+</form>
 </body>
 </html>

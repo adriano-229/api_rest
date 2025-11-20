@@ -34,7 +34,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public String viewCategory(@PathVariable Long id,Model model) {
+    public String viewCategory(@PathVariable Long id, Model model) {
         CategoryDTO category = categoryService.getCategory(id);
         model.addAttribute("category", category);
         return "categories/view";

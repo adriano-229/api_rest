@@ -1,39 +1,39 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title th:text="${entityName} + ' Form'">Entity Form</title>
+  <meta charset="UTF-8">
+  <title th:text="${entityName} + ' Form'">Entity Form</title>
 </head>
 <body>
-    <h1 th:text="${isEdit ? 'Edit ' + entityName : 'Create ' + entityName}">Entity Form</h1>
+<h1 th:text="${isEdit ? 'Edit ' + entityName : 'Create ' + entityName}">Entity Form</h1>
 
-    <form th:action="${isEdit} ? @{/{path}/{id}(path=${basePath},id=${entity.id})} : @{/{path}(path=${basePath})}"
-          th:object="${entity}" method="post">
+<form method="post"
+      th:action="${isEdit} ? @{/{path}/{id}(path=${basePath},id=${entity.id})} : @{/{path}(path=${basePath})}" th:object="${entity}">
 
-        <input type="hidden" th:field="*{id}" th:if="${isEdit}"/>
+  <input th:field="*{id}" th:if="${isEdit}" type="hidden"/>
 
-        <div>
-            <label for="name">Name:</label>
-            <input type="text" id="name" th:field="*{name}" required/>
-        </div>
+  <div>
+    <label for="name">Name:</label>
+    <input id="name" required th:field="*{name}" type="text"/>
+  </div>
 
-        <div>
-            <label for="price">Price:</label>
-            <input type="number" id="price" th:field="*{price}" step="0.01" required/>
-        </div>
+  <div>
+    <label for="price">Price:</label>
+    <input id="price" required step="0.01" th:field="*{price}" type="number"/>
+  </div>
 
-        <div>
-            <label for="category">Category:</label>
-            <input type="number" id="category" th:field="*{category.id}"/>
-        </div>
+  <div>
+    <label for="category">Category:</label>
+    <input id="category" th:field="*{category.id}" type="number"/>
+  </div>
 
-        <div>
-            <label for="brand">Brand:</label>
-            <input type="number" id="brand" th:field="*{brand.id}"/>
-        </div>
+  <div>
+    <label for="brand">Brand:</label>
+    <input id="brand" th:field="*{brand.id}" type="number"/>
+  </div>
 
-        <button type="submit" th:text="${isEdit ? 'Update' : 'Create'}">Submit</button>
-        <a th:href="@{/{path}(path=${basePath})}">Cancel</a>
-    </form>
+  <button th:text="${isEdit ? 'Update' : 'Create'}" type="submit">Submit</button>
+  <a th:href="@{/{path}(path=${basePath})}">Cancel</a>
+</form>
 </body>
 </html>
