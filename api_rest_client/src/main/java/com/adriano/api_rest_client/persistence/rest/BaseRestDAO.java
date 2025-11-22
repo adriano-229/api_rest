@@ -2,11 +2,12 @@ package com.adriano.api_rest_client.persistence.rest;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-public abstract class BaseRestDAO<T, ID>  {
+public abstract class BaseRestDAO<T, ID> {
 
     protected final RestTemplate restTemplate;
     private final String resourcePath;
@@ -24,7 +25,8 @@ public abstract class BaseRestDAO<T, ID>  {
     }
 
     public List<T> list() {
-        return restTemplate.exchange(resourcePath, HttpMethod.GET, null, listType).getBody();
+        ResponseEntity<List<T>> response = restTemplate.exchange(resourcePath, HttpMethod.GET, null, listType);
+        return response.getBody();
     }
 
     public T get(ID id) {
@@ -35,13 +37,12 @@ public abstract class BaseRestDAO<T, ID>  {
         return restTemplate.postForObject(resourcePath, entity, dtoClass);
     }
 
-    public void update(ID id, T entity) {
+    public T update(ID id, T entity) {
         restTemplate.put(resourcePath + "/{id}", entity, id);
-        get(id);
+        return get(id);
     }
 
     public void delete(ID id) {
         restTemplate.delete(resourcePath + "/{id}", id);
     }
-
 }

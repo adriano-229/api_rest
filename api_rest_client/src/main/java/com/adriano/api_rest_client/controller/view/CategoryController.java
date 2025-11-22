@@ -3,7 +3,6 @@ package com.adriano.api_rest_client.controller.view;
 import com.adriano.api_rest_client.domain.dto.CategoryDTO;
 import com.adriano.api_rest_client.service.CategoryService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -17,10 +16,5 @@ public class CategoryController extends BaseController<CategoryDTO, Long> {
     @Override
     protected CategoryDTO createNewInstance() {
         return new CategoryDTO();
-    }
-
-    @Override
-    protected void populateFormModel(Model model, CategoryDTO entity) {
-        model.addAttribute("entity", entity);
     }
 }
