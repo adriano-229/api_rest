@@ -1,28 +1,33 @@
 package com.example.server.service;
 
-public interface CrudHooks<T, ID> {
+import com.example.server.domain.dto.BaseDto;
+import com.example.server.domain.entity.BaseEntity;
 
-    default void beforeCreate(T entity) {
+import java.io.Serializable;
+
+public interface CrudHooks<E extends BaseEntity, D extends BaseDto, ID extends Serializable> {
+
+    default void beforeCreate(D dto) {
     }
 
-    default void afterCreate(T entity) {
+    default void afterCreate(E entity) {
     }
 
     default void beforeRead(ID id) {
     }
 
-    default void afterRead(T entity) {
+    default void afterRead(E entity) {
     }
 
-    default void beforeUpdate(ID id, T entity) {
+    default void beforeUpdate(ID id, D dto) {
     }
 
-    default void afterUpdate(T entity) {
+    default void afterUpdate(E entity) {
     }
 
     default void beforeDelete(ID id) {
     }
 
-    default void afterDelete(ID id) {
+    default void afterDelete(E entity) {
     }
 }

@@ -1,52 +1,68 @@
 package com.example.server.service;
 
+import com.example.server.domain.dto.BaseDto;
 import com.example.server.domain.entity.BaseEntity;
+import com.example.server.domain.mapper.BaseMapper;
 import com.example.server.repository.BaseRepository;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class BaseService<T extends BaseEntity, ID> implements CrudHooks<T, ID> {
+public abstract class BaseService<E extends BaseEntity, D extends BaseDto, ID extends Serializable>
+        implements CrudHooks<E, D, ID> {
 
-    protected final BaseRepository<T, ID> baseRepository;
+    protected final BaseRepository<E, ID> baseRepository;
+    protected final BaseMapper<E, D> baseMapper;
 
-    public BaseService(BaseRepository<T, ID> baseRepository) {
+    public BaseService(BaseRepository<E, ID> baseRepository,
+                       BaseMapper<E, D> baseMapper) {
         this.baseRepository = baseRepository;
+        this.baseMapper = baseMapper;
     }
 
-    public List<T> findAll() {
-        return baseRepository.findAll();
+    @Transactional(readOnly = true)
+    public List<D> readAll() {
+        List<E> entities = baseRepository.findAll();
+        return baseMapper.toDtoList(entities);
     }
 
-    public Optional<T> findById(ID id) {
+    @Transactional(readOnly = true)
+    public Optional<D> readById(ID id) {
         beforeRead(id);
-        Optional<T> entity = baseRepository.findById(id);
+        Optional<E> entity = baseRepository.findById(id);
         entity.ifPresent(this::afterRead);
-        return entity;
+        return entity.map(baseMapper::toDto);
     }
 
-    public T save(T entity) {
-        beforeCreate(entity);
-        T saved = baseRepository.save(entity);
+    @Transactional
+    public D create(D dto) {
+        beforeCreate(dto);
+        E entity = baseMapper.toEntity(dto);
+        E saved = baseRepository.save(entity);
         afterCreate(saved);
-        return saved;
+        return baseMapper.toDto(saved);
     }
 
-    public T update(ID id, T newEntity) {
-        beforeUpdate(id, newEntity);
+    @Transactional
+    public Optional<D> update(ID id, D dto) {
+        beforeUpdate(id, dto);
         return baseRepository.findById(id).map(existing -> {
-            newEntity.setId(existing.getId());
-            T updated = baseRepository.save(newEntity);
-            afterUpdate(updated);
-            return updated;
-        }).orElse(null);
+            E updatedEntity = baseMapper.toEntity(dto);
+            updatedEntity.setId(existing.getId());
+            E saved = baseRepository.save(updatedEntity);
+            afterUpdate(saved);
+            return baseMapper.toDto(saved);
+        });
     }
 
+    @Transactional
     public void deleteById(ID id) {
         beforeDelete(id);
-        baseRepository.findById(id).ifPresent(e -> {
-            baseRepository.deleteById(id);
-            afterDelete(id);
+        baseRepository.findById(id).ifPresent(entity -> {
+            baseRepository.delete(entity);
+            afterDelete(entity);
         });
     }
 }

@@ -19,20 +19,20 @@ public abstract class BaseRestController<T extends BaseEntity, ID> {
 
     @GetMapping
     public ResponseEntity<List<T>> findAll() {
-        List<T> entities = baseService.findAll();
+        List<T> entities = baseService.readAll();
         return ResponseEntity.ok(entities);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<T> findById(@PathVariable ID id) {
-        Optional<T> entity = baseService.findById(id);
+        Optional<T> entity = baseService.readById(id);
         return entity.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<T> create(@RequestBody T entity) {
-        T saved = baseService.save(entity);
+        T saved = baseService.create(entity);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
@@ -47,7 +47,7 @@ public abstract class BaseRestController<T extends BaseEntity, ID> {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable ID id) {
-        Optional<T> existing = baseService.findById(id);
+        Optional<T> existing = baseService.readById(id);
         if (existing.isEmpty()) {
             return ResponseEntity.notFound().build();
         }

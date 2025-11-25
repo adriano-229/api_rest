@@ -1,7 +1,6 @@
 package com.example.server.controller.view;
 
 import com.example.server.domain.entity.BaseEntity;
-import com.example.server.domain.exception.BrandNotFoundException;
 import com.example.server.service.BaseService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +14,7 @@ import java.util.Optional;
 
 public abstract class BaseController<T extends BaseEntity, ID> {
 
-    protected final BaseService<T, ID> baseService;
+    protected final BaseService<E, D, ID> baseService;
     protected final String entityName;
     protected final String basePath;
 
@@ -28,7 +27,7 @@ public abstract class BaseController<T extends BaseEntity, ID> {
 
     @GetMapping
     public String listAll(Model model) {
-        List<T> entities = baseService.findAll();
+        List<T> entities = baseService.readAll();
         model.addAttribute("entities", entities);
         model.addAttribute("entityName", entityName);
         model.addAttribute("basePath", basePath);
@@ -37,7 +36,7 @@ public abstract class BaseController<T extends BaseEntity, ID> {
 
     @GetMapping("/{id}")
     public String view(@PathVariable("id") ID id, Model model, RedirectAttributes redirectAttributes) {
-        Optional<T> entity = baseService.findById(id);
+        Optional<T> entity = baseService.readById(id);
         if (entity.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", entityName + " not found");
             return "redirect:/" + basePath;
@@ -62,7 +61,7 @@ public abstract class BaseController<T extends BaseEntity, ID> {
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") ID id, Model model, RedirectAttributes redirectAttributes) {
-        Optional<T> entity = baseService.findById(id);
+        Optional<T> entity = baseService.readById(id);
         if (entity.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", entityName + " not found");
             return "redirect:/" + basePath;
@@ -78,8 +77,8 @@ public abstract class BaseController<T extends BaseEntity, ID> {
     @PostMapping
     public String create(@ModelAttribute T entity, RedirectAttributes redirectAttributes) {
         try {
-            baseService.save(entity);
-        } catch (RuntimeException e) {
+            baseService.create(entity);
+        } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/" + template("new");
         }
@@ -100,7 +99,7 @@ public abstract class BaseController<T extends BaseEntity, ID> {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") ID id, RedirectAttributes redirectAttributes) {
-        Optional<T> existing = baseService.findById(id);
+        Optional<T> existing = baseService.readById(id);
         if (existing.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", entityName + " not found");
             return "redirect:/" + basePath;
@@ -115,4 +114,5 @@ public abstract class BaseController<T extends BaseEntity, ID> {
     protected String template(String viewName) {
         return basePath + "/" + viewName;
     }
+
 }
