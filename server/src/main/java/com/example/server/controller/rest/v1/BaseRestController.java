@@ -19,7 +19,7 @@ public abstract class BaseRestController<E extends BaseEntity, D extends BaseDto
     }
 
     @GetMapping
-    public ResponseEntity<List<D>> findAll() {
+    public  ResponseEntity<List<D>> findAll() {
         List<D> entities = baseService.readAll();
         return ResponseEntity.ok(entities);
     }

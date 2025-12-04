@@ -3,6 +3,7 @@
 <head th:replace="fragments/layout :: head(${entityName} + ' List')"></head>
 <body>
 <header th:replace="fragments/layout :: header(${entityName} + ' List')"></header>
+<div th:if="${error}" class="error" th:text="${error}"></div>
 <ul>
   <li><a th:href="@{/brands}">Brands</a></li>
   <li><a th:href="@{/products}">Products</a></li>

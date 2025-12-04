@@ -39,10 +39,12 @@ public abstract class BaseController<E extends BaseEntity, D extends BaseDto, ID
     @GetMapping("/{id}")
     public String view(@PathVariable("id") ID id, Model model, RedirectAttributes redirectAttributes) {
         Optional<D> entity = baseService.readById(id);
+
         if (entity.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", entityName + " not found");
             return "redirect:/" + basePath;
         }
+
         model.addAttribute("entity", entity.get());
         model.addAttribute("entityName", entityName);
         model.addAttribute("basePath", basePath);
@@ -64,10 +66,12 @@ public abstract class BaseController<E extends BaseEntity, D extends BaseDto, ID
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") ID id, Model model, RedirectAttributes redirectAttributes) {
         Optional<D> entity = baseService.readById(id);
+
         if (entity.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", entityName + " not found");
             return "redirect:/" + basePath;
         }
+
         model.addAttribute("entity", entity.get());
         model.addAttribute("entityName", entityName);
         model.addAttribute("basePath", basePath);
@@ -79,12 +83,7 @@ public abstract class BaseController<E extends BaseEntity, D extends BaseDto, ID
 
     @PostMapping
     public String create(@ModelAttribute D entity, RedirectAttributes redirectAttributes) {
-        try {
             baseService.create(entity);
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
-            return "redirect:/" + template("new");
-        }
         redirectAttributes.addFlashAttribute("success", entityName + " created successfully");
         return "redirect:/" + basePath;
     }
@@ -92,10 +91,12 @@ public abstract class BaseController<E extends BaseEntity, D extends BaseDto, ID
     @PostMapping("/{id}")
     public String update(@PathVariable("id") ID id, @ModelAttribute D entity, RedirectAttributes redirectAttributes) {
         Optional<D> updated = baseService.update(id, entity);
+
         if (updated.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", entityName + " not found");
             return "redirect:/" + basePath;
         }
+
         redirectAttributes.addFlashAttribute("success", entityName + " updated successfully");
         return "redirect:/" + basePath;
     }
@@ -103,10 +104,12 @@ public abstract class BaseController<E extends BaseEntity, D extends BaseDto, ID
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") ID id, RedirectAttributes redirectAttributes) {
         Optional<D> existing = baseService.readById(id);
+
         if (existing.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", entityName + " not found");
             return "redirect:/" + basePath;
         }
+
         baseService.deleteById(id);
         redirectAttributes.addFlashAttribute("success", entityName + " deleted successfully");
         return "redirect:/" + basePath;
