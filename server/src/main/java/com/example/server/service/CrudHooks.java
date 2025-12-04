@@ -4,7 +4,6 @@ import com.example.server.domain.dto.BaseDto;
 import com.example.server.domain.entity.BaseEntity;
 
 import java.io.Serializable;
-
 public interface CrudHooks<E extends BaseEntity, D extends BaseDto, ID extends Serializable> {
 
     default void beforeCreate(D dto, E entity) {
@@ -19,7 +18,7 @@ public interface CrudHooks<E extends BaseEntity, D extends BaseDto, ID extends S
     default void afterRead(E entity) {
     }
 
-    default void beforeUpdate(ID id, D dto) {
+    default void beforeUpdate(ID id, D dto, E entity) {
     }
 
     default void afterUpdate(E entity) {
