@@ -4,6 +4,7 @@ import com.example.server.domain.dto.ProductDto;
 import com.example.server.domain.entity.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper extends BaseMapper<Product, ProductDto> {
@@ -13,5 +14,8 @@ public interface ProductMapper extends BaseMapper<Product, ProductDto> {
 
     @Mapping(target = "brand", ignore = true)
     Product toEntity(ProductDto dto);
+
+    @Mapping(target = "brand", ignore = true)
+    void updateEntity(ProductDto dto, @MappingTarget Product entity);
 
 }
