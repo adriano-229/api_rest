@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${isReadOnly} ? 'Brand Details' : (${isEdit} ? 'Edit Brand' : 'New Brand'))}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="main-content">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="h3 mb-0" th:text="${isReadOnly} ? 'Brand Details' : (${isEdit} ? 'Edit Brand' : 'New Brand')">Brand</h1>
+                    <a th:href="@{/brands}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Back</a>
+                </div>
+
+                <div th:replace="~{fragments/layout :: alerts(${success}, ${error})}"></div>
+
+                <div class="card">
+                    <div class="card-body">
+
+                        <!-- View Mode -->
+                        <div th:if="${isReadOnly}">
+                            <dl class="row mb-0">
+                                <dt class="col-sm-3">ID</dt>
+                                <dd class="col-sm-9" th:text="${entity.id}">1</dd>
+                                <dt class="col-sm-3">Name</dt>
+                                <dd class="col-sm-9" th:text="${entity.name}">Name</dd>
+                            </dl>
+                            <hr/>
+                            <a th:href="@{/brands/edit/{id}(id=${entity.id})}" class="btn btn-primary"><i class="bi bi-pencil me-1"></i>Edit</a>
+                            <a th:href="@{/brands/delete/{id}(id=${entity.id})}" class="btn btn-outline-danger btn-delete"><i class="bi bi-trash me-1"></i>Delete</a>
+                        </div>
+
+                        <!-- Edit/Create Mode -->
+                        <form th:if="${!isReadOnly}" method="post"
+                              th:action="${isEdit} ? @{/brands/{id}(id=${entity.id})} : @{/brands}"
+                              th:object="${entity}">
+                            <input th:field="*{id}" th:if="${isEdit}" type="hidden"/>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" th:field="*{name}" required/>
+                            </div>
+                            <button type="submit" class="btn btn-primary" th:text="${isEdit} ? 'Update' : 'Create'">Submit</button>
+                            <a th:href="@{/brands}" class="btn btn-outline-secondary">Cancel</a>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<div th:replace="~{fragments/layout :: delete-modal}"></div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>
+

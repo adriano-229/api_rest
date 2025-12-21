@@ -1,10 +1,9 @@
-### Minimalistic RESTful API - Version 1.0
+# Minimalistic RESTful API - Version 1.0
 
-This project is a **Version 1** implementation of a simple RESTful API using the client-server architecture. On the server side
-there is both a web view and a RESTful API, the former is the same as the clients whereas the latter is the one  
-that allows clients to perform CRUD (Create, Read, Update, Delete) operations on brands and products.
+This project is an implementation of a simple RESTful API using the client-server architecture. The server module
+contains the RESTful API, while the client module is responsible for consuming the API endpoints.
 
-#### Class Diagram
+## Class Diagram
 
 **Brand** contains the following attributes:
 
@@ -21,7 +20,7 @@ that allows clients to perform CRUD (Create, Read, Update, Delete) operations on
 On creation, a product must be associated with an existing brand. However, if the brand is deleted, the product remains
 in the system with a null brand reference.
 
-#### API Endpoints (v1)
+## API Endpoints
 
 To guarantee the proper functioning of the API, the following endpoints are provided:
 
@@ -39,9 +38,22 @@ To guarantee the proper functioning of the API, the following endpoints are prov
   - `PUT /api/v1/products/{id}`: Update an existing product by its ID.
   - `DELETE /api/v1/products/{id}`: Delete a product by its ID.
 
-#### Future Features (v2+)
+## Technologies Used
 
-The following features are planned for future versions:
+- Programming Language: Java 21
+- Framework: Spring Boot
+- Database: MySQL
+- Build Tool: Maven
+- API Documentation: Swagger/OpenAPI
+
+## Features and Version Roadmap
+
+### Version 1.0
+
+- Initial release with basic CRUD operations for Brands and Products.
+- Server and Client modules implemented.
+
+### Yet to be implemented features for future versions:
 
 **Authentication & Authorization**
 - JWT-based authentication system

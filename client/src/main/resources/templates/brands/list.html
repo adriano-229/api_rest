@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Brands')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="main-content">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h3 mb-0">Brands</h1>
+            <a th:href="@{/brands/new}" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Add</a>
+        </div>
+
+        <div th:replace="~{fragments/layout :: alerts(${success}, ${error})}"></div>
+
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="entity : ${entities}">
+                        <td th:text="${entity.id}">1</td>
+                        <td th:text="${entity.name}">Name</td>
+                        <td class="text-end">
+                            <a th:href="@{/brands/{id}(id=${entity.id})}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>
+                            <a th:href="@{/brands/edit/{id}(id=${entity.id})}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                            <a th:href="@{/brands/delete/{id}(id=${entity.id})}" class="btn btn-sm btn-outline-danger btn-delete"><i class="bi bi-trash"></i></a>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(entities)}">
+                        <td colspan="3" class="text-center py-4 text-muted">No brands found</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<div th:replace="~{fragments/layout :: delete-modal}"></div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>
+
